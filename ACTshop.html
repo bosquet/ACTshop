@@ -1,0 +1,52 @@
+<head>
+  <title>Inventory</title>
+</head>
+ 
+<body>
+  <div class="container">
+    <header>
+      <h1>Inventory ({{incompleteCount}})</h1>
+
+      <label class="hide-completed">
+        <input type="checkbox" checked="{{hideCompleted}}" />
+        Hide Completed items
+      </label>
+
+      {{> loginButtons}}
+
+      {{#if currentUser}}
+        <form class="new-item">
+          <input type="text" name="text" placeholder="new item">
+          <input type="text" name="type" placeholder="type of item">
+          <input type="submit" value="Create">
+        </form>
+      {{/if}}
+    </header>
+ 
+    <ul>
+      {{#each items}}
+        {{> item}}
+      {{/each}}
+    </ul>
+  </div>
+</body>
+ 
+<template name="item">
+  <li class="{{#if checked}}checked{{/if}} {{#if private}}private{{/if}}">
+    <button class="delete">&times;</button>
+ 
+    <input type="checkbox" checked="{{checked}}" class="toggle-checked" />
+ 
+     {{#if isOwner}}
+      <button class="toggle-private">
+        {{#if private}}
+          Private
+        {{else}}
+          Public
+        {{/if}}
+      </button>
+    {{/if}}
+ 
+    <span class="text"><strong>{{username}}</strong> - {{text}} - {{type}}</span>
+  </li>
+</template>
