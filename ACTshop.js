@@ -40,6 +40,7 @@ if (Meteor.isClient) {
       // Prevent default browser form submit
       event.preventDefault();
  
+        //THIS IS WHERE TO FIX SUBMIT
       // Get value from form element
       var text = event.target.text.value;
  
