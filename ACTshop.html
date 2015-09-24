@@ -16,27 +16,27 @@
 
       {{#if currentUser}}
         <form class="new-item">
-          <input type="text" name="text" placeholder="new item">
+          <input type="text" name="name" placeholder="new item">
           <input type="text" name="type" placeholder="type of item">
+          <input type="text" name="location" placeholder="item location">
+          <input type="text" name="accessories" placeholder="item accessories">
           <input type="submit" value="Create">
         </form>
       {{/if}}
     </header>
- 
-    <ul>
-      {{#each items}}
-        {{> item}}
-      {{/each}}
-    </ul>
+ 	<table class="itemstable">
+	    
+	      {{#each items}}
+	        {{> item}}
+	      {{/each}}
+	    
+	</table>
   </div>
 </body>
  
 <template name="item">
-  <li class="{{#if checked}}checked{{/if}} {{#if private}}private{{/if}}">
-    <button class="delete">&times;</button>
- 
-    <input type="checkbox" checked="{{checked}}" class="toggle-checked" />
- 
+  <tr class="{{#if checked}}checked{{/if}} {{#if private}}private{{/if}} itemsrow">  
+    <td> 
      {{#if isOwner}}
       <button class="toggle-private">
         {{#if private}}
@@ -46,7 +46,15 @@
         {{/if}}
       </button>
     {{/if}}
- 
-    <span class="text"><strong>{{username}}</strong> - {{text}} - {{type}}</span>
-  </li>
+ 	</td>
+ 	<td><strong>{{username}}</strong></td>
+ 	<td class="descriptor">{{name}}</td>
+ 	<td class="descriptor">{{type}}</td>
+ 	<td class="descriptor">{{location}}</td>
+ 	<td class="descriptor">{{accessories}}</td>
+ 	<td><input type="checkbox" checked="{{checked}}" class="toggle-checked" /></td>
+ 	<td>
+    <button class="delete">&times;</button>
+ 	</td>
+  </tr>
 </template>

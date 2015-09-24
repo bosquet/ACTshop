@@ -40,14 +40,20 @@ if (Meteor.isClient) {
       // Prevent default browser form submit
       event.preventDefault();
  
-      // Get value from form element
-      var text = event.target.text.value;
+      // Get values from form element
+      var name = event.target.name.value;
+      var type = event.target.type.value;
+      var location = event.target.location.value;
+      var accessories = event.target.accessories.value;
  
       // Insert a item into the collection
-      Meteor.call("additem", text);
+      Meteor.call("additem", name, type, location, accessories);
  
       // Clear form
-      event.target.text.value = "";
+      event.target.name.value = "";
+      event.target.type.value = "";
+      event.target.location.value = "";
+      event.target.accessories.value = "";
       },
     "change .hide-completed input": function (event) {
       Session.set("hideCompleted", event.target.checked);
@@ -74,23 +80,25 @@ if (Meteor.isClient) {
   });
 
   Accounts.ui.config({
-    passwordSignupFields: "USERNAME_ONLY"
+    passwordSignupFields: "EMAIL_ONLY"
   });
 }
  
 Meteor.methods({
-  additem: function (text) {
+  additem: function (name, type, location, accessories) {
     // Make sure the user is logged in before inserting a item
     if (! Meteor.userId() || Meteor.user().username != "admin") {
         throw new Meteor.Error("not-authorized");
     }
  
     items.insert({
-      text: text,
+      name: name,
+      type: type,
+      location: location,
+      accessories: accessories,
       createdAt: new Date(),
       owner: Meteor.userId(),
-      username: Meteor.user().username,
-      type: type
+      username: Meteor.user().username
     });
   },
   deleteitem: function (itemId) {
