@@ -11,6 +11,16 @@ if (Meteor.isServer) {
       ]
     });
   });
+  // Accounts.createUser({
+  //   email: audrey.bosquet@gmail.com,
+  //   password: audreypass,
+  //   profile: {
+  //     firstname: audrey,
+  //     lastname: bosquet,
+  //     id: 916594817,
+  //     title: manager
+  //   }
+  // });
 }
  
 if (Meteor.isClient) {
