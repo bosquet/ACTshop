@@ -19,4 +19,8 @@ ecmascript              # Enable ECMAScript2015+ syntax in app code
 accounts-ui
 accounts-password
 alanning:roles
+<<<<<<< HEAD
 iron:router
+=======
+twbs:bootstrap
+>>>>>>> origin/Roles
