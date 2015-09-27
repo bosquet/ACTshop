@@ -74,6 +74,24 @@ if (Meteor.isClient) {
       }
   });
 
+  Template.register.events({
+    'submit .register': function (event){
+      // Prevent default browser form submit
+      event.preventDefault();
+ 
+      // Get values from form element
+      var email = event.target.email.value;
+      var password = event.target.password.value;
+
+      // Insert a item into the collection
+      Meteor.call("adduser", email, password);
+
+      // Clear form
+      event.target.email.value = "";
+      event.target.password.value = "";
+    }
+  })
+
   Template.item.helpers({
     isOwner: function () {
       return this.owner === Meteor.userId();
@@ -99,6 +117,13 @@ if (Meteor.isClient) {
 }
  
 Meteor.methods({
+  adduser: function (email, password) {
+    // check if admin
+    Accounts.createUser({
+      email: email,
+      password: password
+    });
+  },
   additem: function (name, type, location, accessories) {
     // Make sure the user is logged in before inserting a item
     if (! Meteor.userId() || Meteor.user().username != "admin") {

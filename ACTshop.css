@@ -89,6 +89,10 @@ form {
 	width: 100px;
 }
 
+.itemsrow {
+	height: 40px;
+}
+
 ul {
   margin: 0;
   padding: 0;
