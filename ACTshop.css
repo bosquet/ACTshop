@@ -17,22 +17,34 @@ body {
   font-size: 14px;
 }
 
-.container {
-  max-width: 600px;
+.main {
+  max-width: 900px;
   margin: 0 auto;
   min-height: 100%;
   background: white;
 }
 
+h1 {
+	padding-top: 30px;
+}
+
 header {
   background: #d2edf4;
-  background-image: linear-gradient(to bottom, #d0edf5, #e1e5f0 100%);
   padding: 20px 15px 15px 15px;
   position: relative;
 }
 
+.navbar-toggle {
+	margin-left: 15px;
+}
+
 #login-buttons {
   display: block;
+  line-height: inherit;
+}
+
+#login-dropdown-list {
+	left: -185px;
 }
 /*hiding the "create account" button*/
 #signup-link {
@@ -80,7 +92,6 @@ form {
 ul {
   margin: 0;
   padding: 0;
-  background: white;
 }
 
 .delete {
@@ -94,8 +105,6 @@ ul {
 li {
   position: relative;
   list-style: none;
-  padding: 15px;
-  border-bottom: #eee solid 1px;
 }
 
 li .text {
@@ -124,9 +133,9 @@ header .hide-completed {
 }
 
 @media (max-width: 600px) {
-  li {
+  /*li {
     padding: 12px 15px;
-  }
+  }*/
 
   .search {
     width: 150px;

@@ -1,33 +1,37 @@
 items = new Mongo.Collection("items");
- 
+
+// Routing definitions go here! ------------------------------------
+Router.configure({
+  layoutTemplate: 'main'
+});
+Router.route('/', {
+  name: 'home',
+  template: 'home'
+});
+Router.route('/register', {
+  name: 'register'
+
+});
+
 if (Meteor.isServer) {
   // This code only runs on the server
     // Only publish items that are public or belong to the current user
-  Meteor.publish("items", function () {
-    return items.find({
-      $or: [
-        { private: {$ne: true} },
-        { owner: this.userId }
-      ]
-    });
-  });
-  // Accounts.createUser({
-  //   email: audrey.bosquet@gmail.com,
-  //   password: audreypass,
-  //   profile: {
-  //     firstname: audrey,
-  //     lastname: bosquet,
-  //     id: 916594817,
-  //     title: manager
-  //   }
+  // Meteor.publish("items", function () {
+  //   return items.find({
+  //     $or: [
+  //       { private: {$ne: true} },
+  //       { owner: this.userId }
+  //     ]
+  //   });
   // });
+  
 }
  
 if (Meteor.isClient) {
   // This code only runs on the client
-    Meteor.subscribe("items");
+    // Meteor.subscribe("items");
  
-  Template.body.helpers({
+  Template.home.helpers({
     items: function () {
        if (Session.get("hideCompleted")) {
         // If hide completed is checked, filter items
@@ -45,7 +49,7 @@ if (Meteor.isClient) {
     }
   });
 
-  Template.body.events({
+  Template.home.events({
     "submit .new-item": function (event) {
       // Prevent default browser form submit
       event.preventDefault();
