@@ -19,7 +19,7 @@ body {
 
 .main {
   max-width: 900px;
-  margin: 0 auto;
+  margin: 100px auto 0 auto;
   min-height: 100%;
   background: white;
 }
@@ -36,6 +36,10 @@ header {
 
 .navbar-toggle {
 	margin-left: 15px;
+}
+
+.navbar {
+	border-radius: 0px;
 }
 
 #login-buttons {

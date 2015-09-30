@@ -5,17 +5,15 @@
 </body>
 
 <template name="main">
+	{{> navigation}}
 	<div class="container main">
-		<h1>ACT Shop</h1>
-		<hr />
-		{{> navigation}}
 		{{> yield}}
 		<p> Copyright &copy; Audrey Bosquet, 2015.</p>
 	</div>
 </template>
 
 <template name="navigation">
-	<nav role="navigation" class="navbar navbar-default">        
+	<nav role="navigation" class="navbar navbar-default navbar-fixed-top">        
         <!-- Title -->
         <div class="navbar-header pull-left">
           <a href="/" class="navbar-brand">ACT Shop</a>
@@ -49,7 +47,7 @@
           <!--                      pull-right keeps the drop-down in line -->
           <ul class="nav navbar-nav pull-right">
             <li class="active"><a href="{{pathFor route='home'}}">Home<span class="sr-only">(current)</span></a></li>
-	        <li><a href="{{pathFor route='register'}}">Register</a></li>
+	        {{#if isInRole 'admin'}}<li><a href="{{pathFor route='register'}}">Register</a></li>{{/if}}
           </ul>
         </div>
     </nav>
@@ -86,10 +84,45 @@
 
 <template name="register">
 	<h2 >Register</h2>
+
 	<form class="register">
-		<p>Email: <input type="email" name="email"></p>
-		<p>Password:<input type="password" name="password"></p>
-		<p><input type="submit" value="Register"></p>
+	  <div class="form-group">
+	    <label for="InputEmail">Email address</label>
+	    <input type="email" class="form-control" id="InputEmail" name="email" placeholder="Email">
+	  </div>
+	  <div class="form-group">
+	    <label for="InputPassword">Password</label>
+	    <input type="password" class="form-control" id="InputPassword" name="password" placeholder="Password">
+	  </div>
+	  <div class="form-group">
+	    <label for="InputMITID">MIT ID</label>
+	    <input type="text" class="form-control" id="InputMITID" name="mitid" placeholder="*********">
+	  </div>
+	  <div class="form-group">
+	    <label for="InputFName">First Name</label>
+	    <input type="text" class="form-control" id="InputFName" name="firstname" placeholder="First Name">
+	  </div>
+	  <div class="form-group">
+	    <label for="InputLName">Last Name</label>
+	    <input type="text" class="form-control" id="InputLName" name="lastname" placeholder="Last Name">
+	  </div>
+	  <!-- <div class="form-group">
+	    <label for="InputFile">File input</label>
+	    <input type="file" id="exampleInputFile">
+	    <p class="help-block">Example block-level help text here.</p>
+	  </div> -->
+	  <div class="checkbox">
+	    <label class="radio-inline">
+		  <input type="radio" name="rolesoptions" id="radioadmin" value="admin"> admin
+		</label>
+		<label class="radio-inline">
+		  <input type="radio" name="rolesoptions" id="radiostudent" value="student"> student
+		</label>
+		<label class="radio-inline">
+		  <input type="radio" name="rolesoptions" id="radiomonitor" value="monitor"> monitor
+		</label>
+	  </div>
+	  <button type="submit" class="btn btn-default" value="Register">Register</button>
 	</form>
 </template>
  

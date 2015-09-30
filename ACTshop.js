@@ -16,14 +16,48 @@ Router.route('/register', {
 if (Meteor.isServer) {
   // This code only runs on the server
     // Only publish items that are public or belong to the current user
-  // Meteor.publish("items", function () {
-  //   return items.find({
-  //     $or: [
-  //       { private: {$ne: true} },
-  //       { owner: this.userId }
-  //     ]
-  //   });
+  Meteor.publish("items", function () {
+    return items.find({
+      $or: [
+        { private: {$ne: true} },
+        { owner: this.userId }
+      ]
+    });
+  });
+
+  // Give authorized users access to sensitive data by group
+  // Haven't figured this out yet
+  // Meteor.publish('register', function () {
+  //   if (Roles.userIsInRole(this.userId, ['admin'], 'default-group')) {
+
+  //     return Meteor.register.find({group: 'default-group'});
+
+  //   } else {
+
+  //     // user not authorized. do not publish secrets
+  //     this.stop();
+  //     return;
+
+  //   }
   // });
+
+  Meteor.methods({
+    adduser: function (email, password, firstname, lastname, mitid, role) {
+      // check if admin
+      var id;
+      id = Accounts.createUser({
+        email: email,
+        password: password,
+        profile: {
+          firstname: firstname,
+          lastname: lastname,
+          mitid: mitid, 
+          role: role
+        }
+      });
+      Roles.addUsersToRoles(id, role, "default-group");
+    }
+  });
   
 }
  
@@ -75,20 +109,31 @@ if (Meteor.isClient) {
   });
 
   Template.register.events({
-    'submit .register': function (event){
+    'submit .register': function (event, template){
       // Prevent default browser form submit
       event.preventDefault();
  
       // Get values from form element
       var email = event.target.email.value;
       var password = event.target.password.value;
+      var firstname = event.target.firstname.value;
+      var lastname = event.target.lastname.value;
+      var mitid = event.target.mitid.value;
+      //which box is checked
+      var role = template.find('input:radio[name=rolesoptions]:checked').value;
+      console.log("email: " + email + ", password: " + password + ", name: " + firstname + " " + lastname + ", mit id: " + mitid + ", role: " + role);
 
       // Insert a item into the collection
-      Meteor.call("adduser", email, password);
+      Meteor.call("adduser", email, password, firstname, lastname, mitid, role);
 
       // Clear form
       event.target.email.value = "";
       event.target.password.value = "";
+      event.target.firstname.value = "";
+      event.target.lastname.value = "";
+      event.target.mitid.value = "";
+      //uncheck roles
+
     }
   })
 
@@ -117,16 +162,10 @@ if (Meteor.isClient) {
 }
  
 Meteor.methods({
-  adduser: function (email, password) {
-    // check if admin
-    Accounts.createUser({
-      email: email,
-      password: password
-    });
-  },
+  
   additem: function (name, type, location, accessories) {
     // Make sure the user is logged in before inserting a item
-    if (! Meteor.userId() || Meteor.user().username != "admin") {
+    if (! Meteor.userId() || Meteor.user().profile.role != "admin") {
         throw new Meteor.Error("not-authorized");
     }
  
