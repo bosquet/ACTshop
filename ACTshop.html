@@ -23,19 +23,19 @@
         <div class="navbar-header pull-right">
           <ul class="nav pull-left">
             <!-- This will eventually be a username, and I will use the dropdown option to let user access logout / profile -->
-            <li class="navbar-text pull-left">{{> loginButtons}}</li>
+            <!-- <li class="navbar-text pull-left">{{> loginButtons}}</li> -->
             <!-- Add any additional bootstrap header items.  This is a drop-down from an icon -->
-            <!-- <li class="dropdown pull-right">
+            <li class="dropdown pull-right">
               <a href="#" data-toggle="dropdown" style="color:#777; margin-top: 5px;" class="dropdown-toggle"><span class="glyphicon glyphicon-user"></span><b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <li>
-                  <a href="/users/id" title="Profile">Profile</a>
+                  <a href="/users/id" title="Profile">{{> loginButtons}}</a>
                 </li>
                 <li>
                   <a href="/logout" title="Logout">Logout </a>
                 </li>
               </ul>
-            </li> -->
+            </li>
           </ul>
 
           <!-- Required bootstrap placeholder for the collapsed menu -->
@@ -47,7 +47,9 @@
           <!--                      pull-right keeps the drop-down in line -->
           <ul class="nav navbar-nav pull-right">
             <li class="active"><a href="{{pathFor route='home'}}">Home<span class="sr-only">(current)</span></a></li>
-	        {{#if isInRole 'admin'}}<li><a href="{{pathFor route='register'}}">Register</a></li>{{/if}}
+	        {{#if isInRole 'admin'}}
+	        <li><a href="{{pathFor route='register'}}">Register</a></li>
+	        {{/if}}
           </ul>
         </div>
     </nav>
@@ -63,7 +65,7 @@
 	    <input type="checkbox" checked="{{hideCompleted}}" />
 	    Hide Completed items
 	  </label>
-	  {{#if currentUser}}
+	  {{#if isInRole 'admin'}}
 	    <form class="new-item">
 	      <input type="text" name="name" placeholder="new item">
 	      <input type="text" name="type" placeholder="type of item">
