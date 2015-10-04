@@ -9,8 +9,14 @@ Router.route('/', {
   template: 'home'
 });
 Router.route('/register', {
+  onBeforeAction: function(pause) {
+    if(!Roles.userIsInRole(Meteor.userId(), "admin")){
+      console.log(Roles.userIsInRole(Meteor.userId(), "admin"), Meteor.userId());
+      this.redirect("home");
+    }
+    this.next();
+  },
   name: 'register'
-
 });
 
 if (Meteor.isServer) {
@@ -27,19 +33,19 @@ if (Meteor.isServer) {
 
   // Give authorized users access to sensitive data by group
   // Haven't figured this out yet
-  // Meteor.publish('register', function () {
-  //   if (Roles.userIsInRole(this.userId, ['admin'], 'default-group')) {
+  Meteor.publish('register', function () {
+    if (Roles.userIsInRole(this.userId, ['admin'], GLOBAL_GROUP)) {
 
-  //     return Meteor.register.find({group: 'default-group'});
+      return Meteor.register.find({group: 'default-group'});
 
-  //   } else {
+    } else {
 
-  //     // user not authorized. do not publish secrets
-  //     this.stop();
-  //     return;
+      // user not authorized. do not publish secrets
+      this.stop();
+      return;
 
-  //   }
-  // });
+    }
+  });
 
   Meteor.methods({
     adduser: function (email, password, firstname, lastname, mitid, role) {
@@ -55,7 +61,7 @@ if (Meteor.isServer) {
           role: role
         }
       });
-      Roles.addUsersToRoles(id, role, "default-group");
+      Roles.addUsersToRoles(id, String(role), Roles.GLOBAL_GROUP);
     }
   });
   
